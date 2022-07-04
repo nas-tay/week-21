@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Опросник</title>
+    <link rel="icon"
+        href="https://cdn-icons.flaticon.com/png/512/2179/premium/2179088.png?token=exp=1643229335~hmac=a4645b98d35412baa1217d367313294a"
+        type="image/png" />
+</head>
+<style>
+    input:required:valid {
+        border: 2px solid limegreen;
+        border-radius: 2px;
+    }
+
+    textarea:required:valid {
+        border: 2px solid limegreen;
+        border-radius: 2px;
+    }
+</style>
+
+<body>
+    <h1>Пройдите наш опросник</h1>
+    <h2>Расскажите о своем домашнем любимце!</h2>
+    <img src="https://media.npr.org/assets/img/2021/08/11/gettyimages-1279899488_wide-f3860ceb0ef19643c335cb34df3fa1de166e2761-s1100-c50.jpg"
+        alt="cat chilling on the sofa" width="50%" id="catImage" />
+    <form id="catForm" method="post" action="/post">
+        <label for="catName">1.Кличка питомца</label>
+        <p><input type="text" name="catName" id="catName" maxlength="30" placeholder="Кличка" autofocus required /></p>
+        <label for="name">2.Имя владельца</label>
+        <p><input type="text" id="name" placeholder="Как вас зовут?" maxlength="30" required /></p>
+        <label for="phone">Ваши контакты:</label>
+        <p><input type="text" id="phone" placeholder="Как с вами связаться?" required /></p>
+        <p>3.Порода вашего питомца:</p>
+        <select name="breed" id="breed" required>
+            <option disabled value="">Выберите породу</option>
+            <option value="british">Британская</option>
+            <option value="russian blue">Русская голубая</option>
+            <option value="abyssinian">Абиссинская</option>
+            <option value="sphinx">Сфинкс</option>
+            <option value="devon rex">Девон-рекс</option>
+            <option value="cornish rex">Корниш-рекс</option>
+            <option value="oriental">Ориентальная</option>
+            <option value="munchcin">Манчкин</option>
+            <option value="siamese">Сиамская</option>
+            <option value="persian">Персидская</option>
+            <option value="ragdoll">Рэгдол</option>
+            <option value="scottish lop-eared">Шотландская вислоухая</option>
+            <option value="norwegian forest">Норвежская лесная</option>
+            <option value="burmese">Бурма</option>
+            <option value="siberian">Сибирская</option>
+            <option value="manx">Мэнкс</option>
+            <option value="himalayan">Гималайская</option>
+            <option value="nobreed">Дворовая</option>
+        </select><br /><br />
+        <fieldset id="FeedType" style="width: 200px">
+            <legend>4. Корм</legend>
+            <p>Чем питается ваш питомец?</p>
+            <input type="checkbox" name="feed" value="dry" />сухой корм <br />
+            <input type="checkbox" name="feed" value="wet" />влажный корм <br />
+            <input type="checkbox" name="feed" value="natural" /> натуральный корм
+        </fieldset>
+        <br />
+        <fieldset id="chooseSex" style="width: 200px">
+            <legend>5. Пол</legend>
+            <p>Пол питомца:</p>
+            <label for="f">Самка</label>
+            <input type="radio" name="sex" id="f" required /><br />
+            <label for="m">Самец</label>
+            <input type="radio" name="sex" id="m" />
+        </fieldset>
+        <p>6.Ваш комментарий:</p>
+        <textarea name="comments" rows="5" cols="30" required maxlength="100"></textarea><br /><br />
+        <label for="photo">7.Фото вашего питомца</label>
+        <input type="file" id="photo" /><br />
+        <p>Готово! Сохраните ваши ответы</p>
+        <p><input type="submit" name="save" value="Сохранить" onclick="clickMe(event)" /></p>
+    </form>
+    <script>
+        function fetchToDo() {
+            fetch("https://httpbin.org/post", {
+                    method: 'POST',
+                    body: new FormData(catForm),
+                    headers: {
+                        "Content-Type": "form/multipart"
+                    }
+                })
+                .then(response => response.json())
+                .then(user => console.log(user.data))
+                .catch(error => console.log(error))
+        }
+
+        function clickMe(event) {
+            event.preventDefault();
+            console.log('hi');
+            fetchToDo();
+        }
+    </script>
+</body>
+
+</html>

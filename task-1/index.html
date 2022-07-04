@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .gifs {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            grid-gap: 5px;
+            margin-top: 30px;
+        }
+
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Поиск GIF-ок по темам</h1>
+    <input type="text" id="theme" placeholder="search...">
+    <button id="btnSearch" onclick="search()">Искать!</button>
+    <div class="error" id="error"></div>
+    <div class="gifs">
+    </div>
+    <script>
+        function search() {
+            let theme = document.querySelector('#theme').value;
+            document.querySelector('#error').innerHTML = "";
+            if (theme) {
+                fetchToDo(theme)
+            } else {
+                document.querySelector('#error').innerHTML = "Тема не выбрана"
+            }
+
+            //Почему-то не срабатывает очистка если написано theme="", но срабатывает на такую запись:
+            document.querySelector('#theme').value = "";
+        }
+
+        function fetchToDo(theme) {
+            fetch(
+                    'https://api.giphy.com/v1/gifs/search?api_key=rGma7r8emp2EZ6wLJrh2simgL6IsY78J&q=' + theme +
+                    '&limit=5&offset=0&rating=g&lang=ru'
+                )
+                .then(response => response.json())
+                .then(data => {
+                    string = "";
+                    data.data.forEach(element => {
+                        string += `<img src="${element.images.fixed_width.url}" alt="gif">`
+                    });
+                    document.querySelector('.gifs').innerHTML = string;
+                })
+                .catch(error => console.log(error))
+        }
+
+        document.querySelector('#theme').addEventListener('keydown', function (event) {
+            if (event.key === "Enter") {
+                search(theme);
+            }
+        })
+    </script>
+</body>
+
+</html>
