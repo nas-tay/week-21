@@ -1,16 +1,6 @@
-let btnSubmit, userName, lastName, accountName, password, errorMessage1, errorMessage2, errorMessage3, errorMessage4, errorMessage5, passwordRepeat; //Объявляем переменные
-
-btnSubmit = document.querySelector(".btn-submit");
-userName = document.querySelector("#name");
-lastName = document.querySelector("#lastName");
-accountName = document.querySelector("#accountName");
-password = document.querySelector("#exampleInputPassword1");
-passwordRepeat = document.querySelector(".passwordRepeat");
-errorMessage1 = document.querySelector(".errorMessage_1");
-errorMessage2 = document.querySelector(".errorMessage_2");
-errorMessage3 = document.querySelector(".errorMessage_3");
-errorMessage4 = document.querySelector(".errorMessage_4");
-errorMessage5 = document.querySelector(".errorMessage_5"); //Строки 3-13 - присваиваем значения переменным
+let userName = document.querySelector("#name");
+let lastName = document.querySelector("#lastName");
+let password = document.querySelector("#exampleInputPassword1");
 
 //Валидация для имен, делает первую букву заглавной и принимает только буквы и тире
 function correctInput(e) {
@@ -32,7 +22,19 @@ userName.addEventListener("input", correctInput);
 lastName.addEventListener("input", correctInput);
 
 function check() {
+    let accountName, errorMessage1, errorMessage2, errorMessage3, errorMessage4, errorMessage5, passwordRepeat;
+
+    accountName = document.querySelector("#accountName");
+    passwordRepeat = document.querySelector(".passwordRepeat");
+    errorMessage1 = document.querySelector(".errorMessage_1");
+    errorMessage2 = document.querySelector(".errorMessage_2");
+    errorMessage3 = document.querySelector(".errorMessage_3");
+    errorMessage4 = document.querySelector(".errorMessage_4");
+    errorMessage5 = document.querySelector(".errorMessage_5");
+
     let accountNameFormat = /^[a-z0-9.]{1,30}$/;
+    let errors = document.querySelectorAll(".errorMessage");
+    let borders = document.querySelectorAll(".input-border");
 
     let user = {
         name: userName.value,
@@ -41,21 +43,17 @@ function check() {
         password: password.value,
     };
 
-    errorMessage1.innerHTML = "";
-    errorMessage2.innerHTML = "";
-    errorMessage3.innerHTML = "";
-    errorMessage4.innerHTML = "";
-    errorMessage5.innerHTML = "";
-    userName.classList.remove("input-border");
-    lastName.classList.remove("input-border");
-    accountName.classList.remove("input-border");
-    password.classList.remove("input-border");
-    errorMessage1.classList.remove("errorMessage");
-    errorMessage2.classList.remove("errorMessage");
-    errorMessage3.classList.remove("errorMessage");
+    errors.forEach((element) => {
+        element.innerHTML = "";
+        element.classList.remove("errorMessage");
+    });
+
+    borders.forEach((element) => {
+        element.classList.remove("input-border");
+    });
+
     accountName.classList.remove("accountCheck");
-    accountName.classList.add("accountName");
-    passwordRepeat.classList.remove("input-border"); //19-32 строки - обнуляем то, что вызывается при ошибке
+    accountName.classList.add("accountName"); //19-32 строки - обнуляем то, что вызывается при ошибке
 
     if (userName.validity.valueMissing) {
         //Проверка поля "Имя"
@@ -134,7 +132,7 @@ function check() {
     }
 }
 
-btnSubmit.addEventListener("click", check);
+document.querySelector(".btn-submit").addEventListener("click", check);
 
 //Показать-скрыть пароль
 function show_hide_password() {
@@ -143,7 +141,6 @@ function show_hide_password() {
     } else {
         password.setAttribute("type", "password");
     }
-    return false;
 }
 
 document.querySelector("#showPassword").addEventListener("click", show_hide_password);
