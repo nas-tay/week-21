@@ -53,7 +53,7 @@ function check() {
     });
 
     accountName.classList.remove("accountCheck");
-    accountName.classList.add("accountName"); //19-32 строки - обнуляем то, что вызывается при ошибке
+    accountName.classList.add("accountName");
 
     if (userName.validity.valueMissing) {
         //Проверка поля "Имя"
