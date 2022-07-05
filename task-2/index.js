@@ -167,6 +167,7 @@ document.querySelector(".btn-submit").addEventListener("click", finalCheck);
 
 //Показать-скрыть пароль
 function show_hide_password() {
+    getVariables();
     if (password.getAttribute("type") == "password") {
         password.setAttribute("type", "text");
     } else {
